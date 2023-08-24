@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  drawTextWithShadow,
+  createAndDownloadBlob,
+} from "./utility/canvasUtils";
 
 export default function Meme() {
   const [meme, setMeme] = React.useState({
@@ -34,7 +38,7 @@ export default function Meme() {
   }
 
   function handleSave() {
-    if (!memeImage) return; // Check if memeImage is defined
+    if (!memeImage) return;
 
     const memeCanvas = document.createElement("canvas");
     memeCanvas.width = memeImage.width;
@@ -43,50 +47,15 @@ export default function Meme() {
 
     ctx.drawImage(memeImage, 0, 0);
 
-    const shadowOffset = 2; // Adjust this value for desired shadow offset
-
-    // Draw top text with shadow
-    ctx.font = "bold 30px impact";
-    ctx.fillStyle = "black"; // Shadow color
-    ctx.textAlign = "center";
-    ctx.fillText(
-      meme.topText,
-      memeCanvas.width / 2 + shadowOffset,
-      40 + shadowOffset
-    );
-
-    // Draw top text
-    ctx.font = "bold 30px impact";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText(meme.topText, memeCanvas.width / 2, 40);
-
-    // Draw bottom text with shadow
-    ctx.font = "bold 30px impact";
-    ctx.fillStyle = "black"; // Shadow color
-    ctx.textAlign = "center";
-    ctx.fillText(
+    drawTextWithShadow(ctx, meme.topText, memeCanvas.width / 2, 40);
+    drawTextWithShadow(
+      ctx,
       meme.bottomText,
-      memeCanvas.width / 2 + shadowOffset,
-      memeCanvas.height - 20 + shadowOffset
+      memeCanvas.width / 2,
+      memeCanvas.height - 20
     );
 
-    // Draw bottom text
-    ctx.font = "bold 30px impact";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText(meme.bottomText, memeCanvas.width / 2, memeCanvas.height - 20);
-
-    // Convert the canvas to a data URL and create a blob
-    memeCanvas.toBlob((blob) => {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(blob);
-      downloadLink.download = "meme.png";
-      downloadLink.click();
-
-      // Clean up the object URL after the download
-      URL.revokeObjectURL(downloadLink.href);
-    }, "image/png");
+    createAndDownloadBlob(memeCanvas, "meme.png");
   }
 
   function handleShare() {
