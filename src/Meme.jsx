@@ -41,8 +41,8 @@ export default function Meme() {
     if (!memeImage) return;
 
     const memeCanvas = document.createElement("canvas");
-    memeCanvas.width = memeImage.width;
-    memeCanvas.height = memeImage.height;
+    memeCanvas.width = memeImage.naturalWidth;
+    memeCanvas.height = memeImage.naturalHeight;
     const ctx = memeCanvas.getContext("2d");
 
     ctx.drawImage(memeImage, 0, 0);
@@ -68,11 +68,13 @@ export default function Meme() {
 
     ctx.drawImage(memeImage, 0, 0);
 
-    ctx.font = "bold 30px impact";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText(meme.topText, memeCanvas.width / 2, 40);
-    ctx.fillText(meme.bottomText, memeCanvas.width / 2, memeCanvas.height - 20);
+    drawTextWithShadow(ctx, meme.topText, memeCanvas.width / 2, 40);
+    drawTextWithShadow(
+      ctx,
+      meme.bottomText,
+      memeCanvas.width / 2,
+      memeCanvas.height - 20
+    );
 
     const shareData = {
       files: [memeCanvas.toDataURL("image/png")],
