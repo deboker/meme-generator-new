@@ -60,6 +60,7 @@ main {
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .meme {
@@ -120,5 +121,9 @@ main {
 
 .button-container button:hover {
   background: linear-gradient(90.41deg, #a818da 1.14%, #711f8d 100%);
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+.form--button:hover {
+  background: linear-gradient(90.41deg, #a818da 1.14%, #711f8d 100%);
+  transform: scale(1.02);
 }
