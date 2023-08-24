@@ -58,36 +58,6 @@ export default function Meme() {
     createAndDownloadBlob(memeCanvas, "meme.png");
   }
 
-  function handleShare() {
-    if (!memeImage) return;
-
-    const memeCanvas = document.createElement("canvas");
-    memeCanvas.width = memeImage.width;
-    memeCanvas.height = memeImage.height;
-    const ctx = memeCanvas.getContext("2d");
-
-    ctx.drawImage(memeImage, 0, 0);
-
-    drawTextWithShadow(ctx, meme.topText, memeCanvas.width / 2, 40);
-    drawTextWithShadow(
-      ctx,
-      meme.bottomText,
-      memeCanvas.width / 2,
-      memeCanvas.height - 20
-    );
-
-    const shareData = {
-      files: [memeCanvas.toDataURL("image/png")],
-      text: "Check out this awesome meme I made!",
-    };
-
-    if (navigator.canShare && navigator.canShare(shareData)) {
-      navigator.share(shareData);
-    } else {
-      console.log("Sharing is not supported on this platform.");
-    }
-  }
-
   return (
     <main>
       <div className="form">
@@ -126,9 +96,6 @@ export default function Meme() {
       <div className="button-container">
         <button className="form--button" onClick={handleSave}>
           Save
-        </button>
-        <button className="form--button" onClick={handleShare}>
-          Share
         </button>
       </div>
     </main>
